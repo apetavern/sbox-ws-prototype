@@ -1,0 +1,13 @@
+{
+  "Title": "ws prototyping",
+  "Type": "game",
+  "Org": "trndlr",
+  "Ident": "ws_prototyping",
+  "Schema": 1,
+  "HasAssets": false,
+  "AssetsPath": "",
+  "ResourcePaths": null,
+  "HasCode": true,
+  "CodePath": "/code/",
+  "RootNamespace": "Proto"
+}
