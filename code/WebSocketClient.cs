@@ -54,7 +54,7 @@ namespace Proto
 		/// Sends a message to the WebSocket Server.
 		/// </summary>
 		/// <param name="message">The message to be sent.</param>
-		public async void Send( Message message )
+		public async void Send( OutgoingMessage message )
 		{
 			string jsonMessage = JsonSerializer.Serialize( message );
 			await ws.Send( jsonMessage );
@@ -63,13 +63,25 @@ namespace Proto
 		/// <summary>
 		/// Handler for received messages.
 		/// </summary>
-		/// <param name="message">
+		/// <param name="jsonMessage">
 		/// The message received from the WebSocket Server.
 		/// </param>
-		private void OnMessageReceived( string message )
+		private void OnMessageReceived( string jsonMessage )
 		{
-			// TODO: Handle incoming messages.
-			Log.Info( message );
+			IncomingMessage message = JsonSerializer.Deserialize<IncomingMessage>( jsonMessage );
+
+			// Token
+			if ( message.MessageType == 0 )
+			{
+				TokenWrapper token = new();
+				token.Token = message.Text;
+				TokenManager.SaveToken( token );
+			}
+			// Results of an information query
+			else if ( message.MessageType == 1 )
+			{
+
+			}
 
 		}
 

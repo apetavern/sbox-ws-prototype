@@ -31,6 +31,8 @@ namespace Proto
 		/// <param name="newToken">The token obtained from the Ape Tavern backend.</param>
 		public static void SaveToken( TokenWrapper newToken )
 		{
+			Log.Info( "Saving your auth token to your local data folder." );
+			Log.Warning( "Please never share this token with anyone!" );
 			FileSystem.Data.WriteJson( TOKEN_FILENAME, newToken );
 		}
 	}

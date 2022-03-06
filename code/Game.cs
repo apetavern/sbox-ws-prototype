@@ -31,18 +31,14 @@ namespace Proto
 
 			Log.Info( "We are connected." );
 
-			Message message = new Message();
+			OutgoingMessage message = new();
+			message.MessageType = 0;
 			message.PlayerId = Local.PlayerId.ToString();
 			message.PlayerName = Local.DisplayName;
 			message.Token = TokenManager.GetToken();
 			message.Text = "Client entry message.";
 
 			wsClient.Send( message );
-		}
-
-		public override void Shutdown()
-		{
-			wsClient.Disconnect();
 		}
 
 		public override void ClientJoined( Client client )

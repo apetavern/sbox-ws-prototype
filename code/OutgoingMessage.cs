@@ -2,8 +2,11 @@
 
 namespace Proto
 {
-	public class Message
+	public class OutgoingMessage
 	{
+		[JsonPropertyName( "MessageType" )]
+		public int MessageType { get; set; }
+
 		[JsonPropertyName( "PlayerId" )]
 		public string PlayerId { get; set; }
 
