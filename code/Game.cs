@@ -10,11 +10,7 @@ namespace Proto
 
 		public Prototype()
 		{
-			if ( IsClient )
-			{
-				wsClient = new( "ws://127.0.0.1:8080" );
-				InitializeWSConnection();
-			}
+			wsClient = new( "ws://127.0.0.1:8080" );
 		}
 
 		public async void InitializeWSConnection()
@@ -24,26 +20,25 @@ namespace Proto
 			{
 				Log.Info( "Successfully connected to the WebSocket Server" );
 			}
-			else
-			{
-				Log.Error( "Could not connect to WS Server. Is it running?" );
-			}
 
 			Log.Info( "We are connected." );
 
+			// Attempt to authenticate to WS Server.
 			OutgoingMessage message = new();
 			message.MessageType = 0;
 			message.PlayerId = Local.PlayerId.ToString();
 			message.PlayerName = Local.DisplayName;
 			message.Token = TokenManager.GetToken();
-			message.Text = "Client entry message.";
 
-			wsClient.Send( message );
+			await wsClient.Send( message );
 		}
 
 		public override void ClientJoined( Client client )
 		{
 			base.ClientJoined( client );
+
+			// Someone please tell me if this is stupid.
+			ClientInitializeWS( To.Single( client ) );
 
 			// Create a pawn for this client to play with
 			var pawn = new Pawn();
@@ -62,6 +57,15 @@ namespace Proto
 				tx.Position = tx.Position + Vector3.Up * 50.0f; // raise it up
 				pawn.Transform = tx;
 			}
+		}
+
+		/// <summary>
+		/// Someone please tell me if this is stupid.
+		/// </summary>
+		[ClientRpc]
+		public void ClientInitializeWS()
+		{
+			InitializeWSConnection();
 		}
 	}
 

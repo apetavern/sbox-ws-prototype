@@ -54,7 +54,7 @@ namespace Proto
 		/// Sends a message to the WebSocket Server.
 		/// </summary>
 		/// <param name="message">The message to be sent.</param>
-		public async void Send( OutgoingMessage message )
+		public async Task Send( OutgoingMessage message )
 		{
 			string jsonMessage = JsonSerializer.Serialize( message );
 			await ws.Send( jsonMessage );
