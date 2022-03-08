@@ -7,6 +7,12 @@ namespace Proto
 		[JsonPropertyName( "MessageType" )]
 		public int MessageType { get; set; }
 
+		[JsonPropertyName( "IsServer" )]
+		public bool IsServer { get; set; }
+
+		[JsonPropertyName( "ServerId" )]
+		public string ServerId { get; set; }
+
 		[JsonPropertyName( "PlayerId" )]
 		public string PlayerId { get; set; }
 

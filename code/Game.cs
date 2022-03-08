@@ -11,6 +11,11 @@ namespace Proto
 		public Prototype()
 		{
 			wsClient = new( "ws://127.0.0.1:8080" );
+
+			if ( IsServer )
+			{
+				InitializeWSConnection();
+			}
 		}
 
 		public async void InitializeWSConnection()
@@ -21,13 +26,23 @@ namespace Proto
 				Log.Info( "Successfully connected to the WebSocket Server" );
 			}
 
-			Log.Info( "We are connected." );
+			Log.Info( $"{Host.Name}: We are connected." );
 
 			// Attempt to authenticate to WS Server.
 			OutgoingMessage message = new();
 			message.MessageType = 0;
-			message.PlayerId = Local.PlayerId.ToString();
-			message.PlayerName = Local.DisplayName;
+
+			if ( IsServer )
+			{
+				message.ServerId = "dev_server";
+				message.IsServer = true;
+			}
+			else
+			{
+				message.PlayerId = Local.PlayerId.ToString();
+				message.PlayerName = Local.DisplayName;
+			}
+
 			message.Token = TokenManager.GetToken();
 
 			await wsClient.Send( message );

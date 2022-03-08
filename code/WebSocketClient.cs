@@ -80,7 +80,7 @@ namespace Proto
 			// Results of an information query
 			else if ( message.MessageType == 1 )
 			{
-
+				Log.Info( message.Text );
 			}
 
 		}
